@@ -24,7 +24,7 @@ const ADD_WILDER = gql`
 `;
 
 export default function AddWilderForm() {
-	const [addWilder, { data }] = useMutation(ADD_WILDER);
+	const [addWilder, { data, loading }] = useMutation(ADD_WILDER);
 	console.log("data add form", data);
 
 	const [fields, setFields] = useState<AddWilderFormState>({
@@ -79,7 +79,7 @@ export default function AddWilderForm() {
 	return (
 		<form className="container" onSubmit={handleSubmit}>
 			<div>
-				<label htmlFor="name">Nom</label>
+				<label htmlFor="name">Name</label>
 				<input
 					id="name"
 					type="text"
@@ -90,7 +90,7 @@ export default function AddWilderForm() {
 				></input>
 			</div>
 			<div>
-				<label htmlFor="city">Ville</label>
+				<label htmlFor="city">City</label>
 				<input
 					id="city"
 					type="text"
@@ -100,7 +100,7 @@ export default function AddWilderForm() {
 					onChange={handleChange}
 				></input>
 			</div>
-			<button>Envoyer</button>
+			<button disabled={loading}>{loading ? "Submitting..." : "Submit"}</button>
 		</form>
 	);
 }
