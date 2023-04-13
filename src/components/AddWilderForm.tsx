@@ -1,6 +1,7 @@
 import axios from "axios";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { useWilders } from "../contexts/WilderContext";
+import { gql, useMutation } from "@apollo/client";
 
 type AddWilderFormState = {
 	// pour typer le useState
@@ -11,7 +12,21 @@ type AddWilderFormState = {
 // 	name: "",
 // 	city: "",
 // };
+
+const ADD_WILDER = gql`
+	mutation AddWilder($city: String!, $name: String!) {
+		addWilder(city: $city, name: $name) {
+			name
+			id
+			city
+		}
+	}
+`;
+
 export default function AddWilderForm() {
+	const [addWilder, { data }] = useMutation(ADD_WILDER);
+	console.log("data add form", data);
+
 	const [fields, setFields] = useState<AddWilderFormState>({
 		// const [fields, setFields] = useState({
 		// initialState,
@@ -25,8 +40,14 @@ export default function AddWilderForm() {
 	// fonction handleSubmit qui va gerer l'evement submit // typage de l'evenement avec le type FormEvent fournit par React
 	const handleSubmit = async (event: FormEvent) => {
 		event.preventDefault();
+		await addWilder({
+			// variables: { name, city },
+			// fields: { name: "truc", city: "bidule" }
+			variables: fields,
+		});
+
 		// await axios.post("http://localhost:5000/api/wilder", { name, city });
-		await axios.post("http://localhost:5000/api/wilder", fields);
+		// await axios.post("http://localhost:5000/api/wilder", fields);
 		// setName("");
 		// setCity("");
 		setFields({
