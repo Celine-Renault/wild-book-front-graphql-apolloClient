@@ -43,6 +43,7 @@ export default function AddWilderForm() {
 			// variables: { name, city },
 			// fields: { name: "truc", city: "bidule" }
 			variables: fields,
+			// variables: { name: fields.name, city: fields.city },
 		});
 
 		// await axios.post("http://localhost:5000/api/wilder", { name, city });
